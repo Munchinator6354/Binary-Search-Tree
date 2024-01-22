@@ -21,7 +21,13 @@
 //  - 
 // ----------------------------------------------------------------------------
 istream& operator>>(istream input, BinTree& b) {
-
+  string charSet;
+  // While we get pairs of numbers appropriately, set up those Terms
+  while (input >> charSet && charSet != "$$") {
+    // take the charSet and insert it into the tree
+    // need to write the insert function
+  }
+  return input;
 }
 // ----------------------------------------------------------------------------
 
@@ -30,7 +36,7 @@ istream& operator>>(istream input, BinTree& b) {
 // ------------------------------  << operator --------------------------------
 // << operator
 // Description: 
-//  - Overloaded output operator that takes the BinTree and outputs
+//  - Overloaded output operator
 // Precondition: 
 //  - 
 // Postcondition:
@@ -149,6 +155,60 @@ int BinTree::getHeight(const NodeData &nodeToFind) const {
 
 
 
+// --------------------------------  insert  ----------------------------------
+// insert
+// Description: 
+//  - 
+// Precondition: 
+//  - The BinTree exists and has >= 0 Nodes already.
+// Postcondition:
+//  - The BinTree exists and has 1 more node, with the data passed in inserted
+//    in a Binary Tree ordering fashion.
+// ----------------------------------------------------------------------------
+bool BinTree::insert(NodeData* nd) {
+  if (root == nullptr) {
+    root = new Node();
+    root->left = nullptr;
+    root->data = nd;
+    root->right = nullptr;
+  } else if (*nd < *root->data) {
+    insertH(root->left, nd);          // THIS NEEDS A HELPER WITH THESE PARAMETERS
+  } else {
+    insertH(root->right, nd);
+  }
+}
+// ----------------------------------------------------------------------------
+
+
+
+// --------------------------------  insertH  ---------------------------------
+// insertH
+// Description: 
+//  - Helper function for recursive nature of insert function. Has extra 
+//    parameter to account for the node being passed in if it is not the root.
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+bool BinTree::insertH(Node*& node, NodeData* nd) {
+  if (node == nullptr) {
+    node = new Node();
+    node->left = nullptr;
+    node->data = nd;
+    node->right = nullptr;
+    return true;
+  } else if (*nd < *node->data) {
+    return insertH(node->left, nd);
+  } else {
+    return insertH(node->right, nd);
+  }
+  return false;
+}
+// ----------------------------------------------------------------------------
+
+
+
 // -------------------------------  retrieve  ---------------------------------
 // retrieve
 // Description: 
@@ -218,7 +278,7 @@ void BinTree::displaySideways() const {
 // Description:
 //  - Helper method for displaySideways
 // Precondition: 
-//  - NONE
+//  - 
 // Postcondition:
 //  - BinTree remains unchanged
 // ----------------------------------------------------------------------------
@@ -234,6 +294,26 @@ void BinTree::sideways(Node* current, int level) const {
 
     cout << *current->data << endl;        // display information of object
     sideways(current->left, level);
+  }
+}
+// ----------------------------------------------------------------------------
+
+
+
+//----------------------------- printInOrder ----------------------------------
+// printInOrder
+// Description:
+//  - 
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+void BinTree::printInOrder(ostream& output, Node* node) const {
+  if (node != nullptr) {
+    printInOrder(output, node->left);
+    output << *node->data << " ";
+    printInOrder(output, node->right);
   }
 }
 // ----------------------------------------------------------------------------

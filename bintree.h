@@ -43,21 +43,24 @@ public:
   void bstreeToArray(NodeData* []);
   void displaySideways() const;
   int getHeight(const NodeData &nodeToFind) const;
-  bool insert(NodeData*);
+  bool insert(NodeData* nd);
   bool retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound) const;
 
 private:
   struct Node {
-    NodeData* data;
     Node* left;
+    NodeData* data;
     Node* right;
   };
 
   Node* root;
 
   // utility functions
+  void printInOrder(ostream& output, Node* node) const;
   void inorderHelper( ... ) const;
+  bool insertH(Node*& node, NodeData* nd);
   void sideways(Node*, int) const;			// provided below, helper for displaySideways()
+
 
 };
 
