@@ -172,9 +172,9 @@ bool BinTree::insert(NodeData* nd) {
     root->data = nd;
     root->right = nullptr;
   } else if (*nd < *root->data) {
-    insertH(root->left, nd);          // THIS NEEDS A HELPER WITH THESE PARAMETERS
+    insertHelper(root->left, nd);
   } else {
-    insertH(root->right, nd);
+    insertHelper(root->right, nd);
   }
 }
 // ----------------------------------------------------------------------------
@@ -191,7 +191,7 @@ bool BinTree::insert(NodeData* nd) {
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-bool BinTree::insertH(Node*& node, NodeData* nd) {
+bool BinTree::insertHelper(Node*& node, NodeData* nd) {
   if (node == nullptr) {
     node = new Node();
     node->left = nullptr;
@@ -199,9 +199,9 @@ bool BinTree::insertH(Node*& node, NodeData* nd) {
     node->right = nullptr;
     return true;
   } else if (*nd < *node->data) {
-    return insertH(node->left, nd);
+    return insertHelper(node->left, nd);
   } else {
-    return insertH(node->right, nd);
+    return insertHelper(node->right, nd);
   }
   return false;
 }
@@ -212,14 +212,45 @@ bool BinTree::insertH(Node*& node, NodeData* nd) {
 // -------------------------------  retrieve  ---------------------------------
 // retrieve
 // Description: 
-//  - 
+//  - Retrieves a NodeData* of a given object in the tree via 
+//    pass-by-reference. The second parameter in the function might inititally 
+//    be garbage, and if the object is found, it will point to the actual 
+//    object in the tree.
 // Precondition: 
 //  - 
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-bool BinTree::retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound) {
+bool BinTree::retrieve(const NodeData& target, NodeData*& found) {
+  return retrieveHelper(root, target, found);
+}
+// ----------------------------------------------------------------------------
 
+
+
+// ---------------------------  retrieveHelper  -------------------------------
+// retrieve
+// Description: 
+//  - Retrieves a NodeData* of a given object in the tree via 
+//    pass-by-reference. The second parameter in the function might inititally 
+//    be garbage, and if the object is found, it will point to the actual 
+//    object in the tree.
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) {
+  if (curr == nullptr) {
+    found = nullptr; // do i need this line?????
+    return false;
+  } else if (*curr->data == target) {
+    *found = *curr->data;
+  } else if (*curr->data < target) {
+    return retrieveHelper(curr->left, target, found);
+  } else {
+    return retrieveHelper(curr->right, target, found);
+  }
 }
 // ----------------------------------------------------------------------------
 

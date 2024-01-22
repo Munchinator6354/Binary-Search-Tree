@@ -44,7 +44,7 @@ public:
   void displaySideways() const;
   int getHeight(const NodeData &nodeToFind) const;
   bool insert(NodeData* nd);
-  bool retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound) const;
+  bool retrieve(const NodeData& target, NodeData*& found);
 
 private:
   struct Node {
@@ -56,9 +56,10 @@ private:
   Node* root;
 
   // utility functions
-  void printInOrder(ostream& output, Node* node) const;
   void inorderHelper( ... ) const;
-  bool insertH(Node*& node, NodeData* nd);
+  bool insertHelper(Node*& node, NodeData* nd);
+  void printInOrder(ostream& output, Node* node) const;
+  bool retrieveHelper(Node* curr, const NodeData& target, NodeData*& found);
   void sideways(Node*, int) const;			// provided below, helper for displaySideways()
 
 
