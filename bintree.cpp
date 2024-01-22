@@ -1,5 +1,21 @@
 #include "bintree.h"
 
+// ------------------------------  >> operator --------------------------------
+// >> operator
+// Description: 
+//  - Overloaded input operator
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+ostream& operator<<(ostream& output, const BinTree& b) {
+
+}
+// ----------------------------------------------------------------------------
+
+
+
 // ------------------------------  << operator --------------------------------
 // << operator
 // Description: 
@@ -154,8 +170,8 @@ void BinTree::bstreeToArray(NodeData* []) {
 
 
 
-// -----------------------------  arrayToBSree  -------------------------------
-// arrayToBSree
+// -----------------------------  arrayToBSTree  ------------------------------
+// arrayToBSTree
 // Description: 
 //  - 
 // Precondition: 
@@ -163,7 +179,7 @@ void BinTree::bstreeToArray(NodeData* []) {
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-void BinTree::arrayToBSree(NodeData* []) {
+void BinTree::arrayToBSTree(NodeData* []) {
 
 }
 // ----------------------------------------------------------------------------

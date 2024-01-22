@@ -10,14 +10,8 @@ using namespace std;
 
 class BinTree {
 
-  struct Node {
-    NodeData* data;
-    Node* left;
-    Node* right;
-  };
-
+  friend istream operator>>(istream& input, BinTree& b);
   friend ostream& operator<<(ostream& output, const BinTree& b);
-
 
 public:
   BinTree();
@@ -33,10 +27,8 @@ public:
   bool operator==(const BinTree& b) const;
   bool operator!=(const BinTree& b) const;
 
-  
-
   // Others
-  void arrayToBSree(NodeData* []);
+  void arrayToBSTree(NodeData* []);
   void bstreeToArray(NodeData* []);
   void displaySideways() const;
   int getHeight(const NodeData &nodeToFind) const;
@@ -44,6 +36,12 @@ public:
   bool retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound) const;
 
 private:
+  struct Node {
+    NodeData* data;
+    Node* left;
+    Node* right;
+  };
+
   Node* root;
 
   // utility functions
