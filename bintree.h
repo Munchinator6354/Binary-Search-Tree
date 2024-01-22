@@ -1,4 +1,15 @@
-# ifndef BIN_TREE_H
+// ------------------------------ bintree.h --------------------------------
+// Ryan Isaacson CSS502
+// Date of creation: 01/20/2024
+// Date of Last Modification: 01/26/2024
+// ----------------------------------------------------------------------------
+// Purpose: This file is the function declaration file for the BinTree class. 
+// 
+// ----------------------------------------------------------------------------
+// Notes: 
+// ----------------------------------------------------------------------------
+
+#ifndef BIN_TREE_H
 #define BIN_TREE_H
 
 #include "nodedata.h"
