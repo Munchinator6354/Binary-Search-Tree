@@ -23,6 +23,8 @@ public:
   BinTree();
   BinTree(const BinTree& b);
   ~BinTree();
+  bool isEmpty() const;
+  void makeEmpty();
 
   // Assignment Operator
   BinTree& operator=(const BinTree& b);
@@ -31,15 +33,22 @@ public:
   bool operator==(const BinTree& b) const;
   bool operator!=(const BinTree& b) const;
 
+  
+
   // Others
-  int getHeight(const NodeData &nodeToFind) const;
-  bool retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound);
-  void bstreeToArray(NodeData* []);
   void arrayToBSree(NodeData* []);
+  void bstreeToArray(NodeData* []);
+  void displaySideways() const;
+  int getHeight(const NodeData &nodeToFind) const;
+  bool insert(NodeData*);
+  bool retrieve(const NodeData& nodeToFind, NodeData*& nodeLocationFound) const;
 
 private:
   Node* root;
 
+  // utility functions
+  void inorderHelper( ... ) const;
+  void sideways(Node*, int) const;			// provided below, helper for displaySideways()
 
 };
 
