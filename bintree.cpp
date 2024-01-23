@@ -20,7 +20,7 @@
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-istream& operator>>(istream input, BinTree& b) {
+istream& operator>>(istream& input, BinTree& b) {
   string charSet;
   // While we get pairs of numbers appropriately, set up those Terms
   while (input >> charSet && charSet != "$$") {
@@ -44,6 +44,7 @@ istream& operator>>(istream input, BinTree& b) {
 // ----------------------------------------------------------------------------
 ostream& operator<<(ostream& output, const BinTree& b) {
   
+  return output;
 }
 // ----------------------------------------------------------------------------
 
@@ -103,7 +104,10 @@ BinTree::~BinTree() {
 //  - 
 // ----------------------------------------------------------------------------
 BinTree& BinTree::operator=(const BinTree& b) {
-
+  // if (*this != &b) {
+    
+  // }
+  return *this;
 }
 // ----------------------------------------------------------------------------
 
@@ -119,7 +123,7 @@ BinTree& BinTree::operator=(const BinTree& b) {
 //  - 
 // ----------------------------------------------------------------------------
 bool BinTree::operator==(const BinTree& b) const {
-
+  return true; // NEEDS TO BE COMPLETED
 }
 // ----------------------------------------------------------------------------
 
@@ -133,7 +137,7 @@ bool BinTree::operator==(const BinTree& b) const {
 //  - 
 // ----------------------------------------------------------------------------
 bool BinTree::operator!=(const BinTree& b) const {
-
+  return true; // NEEDS TO BE COMPLETED
 }
 // ----------------------------------------------------------------------------
 
@@ -149,7 +153,7 @@ bool BinTree::operator!=(const BinTree& b) const {
 //  - 
 // ----------------------------------------------------------------------------
 int BinTree::getHeight(const NodeData &nodeToFind) const {
-
+  return 0; // NEEDS TO BE COMPLETED
 }
 // ----------------------------------------------------------------------------
 
@@ -172,17 +176,18 @@ bool BinTree::insert(NodeData* nd) {
     root->data = nd;
     root->right = nullptr;
   } else if (*nd < *root->data) {
-    insertHelper(root->left, nd);
-  } else {
-    insertHelper(root->right, nd);
+    return insertHelper(root->left, nd);
+  } else if (*nd < *root->data) {
+    return insertHelper(root->right, nd);
   }
+  return false; // idk why this is needed, how would we get here
 }
 // ----------------------------------------------------------------------------
 
 
 
-// --------------------------------  insertH  ---------------------------------
-// insertH
+// -----------------------------  insertHelper  -------------------------------
+// insertHelper
 // Description: 
 //  - Helper function for recursive nature of insert function. Has extra 
 //    parameter to account for the node being passed in if it is not the root.
@@ -200,9 +205,10 @@ bool BinTree::insertHelper(Node*& node, NodeData* nd) {
     return true;
   } else if (*nd < *node->data) {
     return insertHelper(node->left, nd);
-  } else {
+  } else if (*nd < *node->data) {
     return insertHelper(node->right, nd);
-  }
+  } 
+  // Otherwise the nd exists in the tree already and we do not insert
   return false;
 }
 // ----------------------------------------------------------------------------
@@ -305,9 +311,9 @@ void BinTree::arrayToBSTree(NodeData* []) {
 // Description: 
 //  - 
 // Precondition: 
-//  - 
+//  - NONE
 // Postcondition:
-//  - 
+//  - BinTree remains unchanged
 // ----------------------------------------------------------------------------
 void BinTree::displaySideways() const {
   sideways(root, 0);
@@ -360,3 +366,6 @@ void BinTree::printInOrder(ostream& output, Node* node) const {
   }
 }
 // ----------------------------------------------------------------------------
+
+
+

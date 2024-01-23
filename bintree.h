@@ -21,7 +21,7 @@ using namespace std;
 
 class BinTree {
 
-  friend istream operator>>(istream& input, BinTree& b);
+  friend istream& operator>>(istream& input, BinTree& b);
   friend ostream& operator<<(ostream& output, const BinTree& b);
 
 public:
