@@ -212,14 +212,20 @@ bool BinTree::insertHelper(Node*& node, NodeData* nd) {
 // -------------------------------  retrieve  ---------------------------------
 // retrieve
 // Description: 
-//  - Retrieves a NodeData* of a given object in the tree via 
-//    pass-by-reference. The second parameter in the function might inititally 
-//    be garbage, and if the object is found, it will point to the actual 
-//    object in the tree.
+//  - If the passed in target NodeData exists in the BinTree, a value of true 
+//    is returned and the found parameter is set to be the accessible point 
+//    of that NodeData object. If the target NodeData does not exist in the 
+//    BinTree, a value of false is returned and the found parameter is simply 
+//    garbage. This function relies on it's helper function to recursively 
+//    focus on one Node at a time, starting with the root Node.
 // Precondition: 
-//  - 
+//  - The BinTree exists and has >= 0 Nodes in it, each with their own 
+//    NodeData object and respective data within.
 // Postcondition:
-//  - 
+//  - The BinTree exists and either true or false is returned depending on if 
+//    the target value was found, true if found, false if not. If the NodeData 
+//    was found, the found parameter is pointed to that NodeData. If the 
+//    NodeData was not found, then garbage data fills the found parameter.
 // ----------------------------------------------------------------------------
 bool BinTree::retrieve(const NodeData& target, NodeData*& found) {
   return retrieveHelper(root, target, found);
@@ -229,16 +235,21 @@ bool BinTree::retrieve(const NodeData& target, NodeData*& found) {
 
 
 // ---------------------------  retrieveHelper  -------------------------------
-// retrieve
+// retrieveHelper
 // Description: 
-//  - Retrieves a NodeData* of a given object in the tree via 
-//    pass-by-reference. The second parameter in the function might inititally 
-//    be garbage, and if the object is found, it will point to the actual 
-//    object in the tree.
+//  - This function is the recursive helper function for the retrieve function.
+//    It is called by the retrieve function. If the root is nullptr, we return 
+//    false and did not find the target NodeData. If the target NodeData 
+//    matches the passed in Node's NodeData, set the found parameter to the 
+//    access location of the NodeData and return true. Otherwise we keep 
+//    recursively searching left and right until we traverse the whole BinTree
 // Precondition: 
-//  - 
+//  - The retrieve function was called
 // Postcondition:
-//  - 
+//  - The BinTree exists and either true or false is returned depending on if 
+//    the target value was found, true if found, false if not. If the NodeData 
+//    was found, the found parameter is pointed to that NodeData. If the 
+//    NodeData was not found, then garbage data fills the found parameter.
 // ----------------------------------------------------------------------------
 bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) {
   if (curr == nullptr) {
@@ -246,6 +257,7 @@ bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& foun
     return false;
   } else if (*curr->data == target) {
     *found = *curr->data;
+    return true;
   } else if (*curr->data < target) {
     return retrieveHelper(curr->left, target, found);
   } else {

@@ -43,7 +43,7 @@ public:
   void bstreeToArray(NodeData* []);
   void displaySideways() const;
   int getHeight(const NodeData &nodeToFind) const;
-  bool insert(NodeData* nd);
+  bool insert(NodeData* nd); // bool return is to check that a ndoe was inserted and it wasn't a duplicate
   bool retrieve(const NodeData& target, NodeData*& found);
 
 private:
