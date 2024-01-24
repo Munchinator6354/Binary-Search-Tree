@@ -61,6 +61,7 @@ private:
   void printInOrder(ostream& output, Node* node) const;
   bool retrieveHelper(Node* curr, const NodeData& target, NodeData*& found);
   void sideways(Node*, int) const;			// provided below, helper for displaySideways()
+  bool traverseAndCompare(const Node* node, const Node* otherNode) const;
 
 
 };

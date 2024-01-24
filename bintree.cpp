@@ -104,9 +104,9 @@ BinTree::~BinTree() {
 //  - 
 // ----------------------------------------------------------------------------
 BinTree& BinTree::operator=(const BinTree& b) {
-  // if (*this != &b) {
+  if (*this != &b) {
     
-  // }
+  }
   return *this;
 }
 // ----------------------------------------------------------------------------
@@ -116,14 +116,16 @@ BinTree& BinTree::operator=(const BinTree& b) {
 // -----------------------------  == operator  --------------------------------
 // operator ==
 // Description: 
-//  - 
+//  - Compares two Bintrees to see if they are identical to each other. 
+//    Returns true if the BinTree's are identical. Returns false if the 
+//    BinTree's are not identical
 // Precondition: 
-//  - 
+//  - Both Bintrees exist and have >0 Nodes
 // Postcondition:
-//  - 
+//  - Both Bintrees exist and have >0 Nodes. 
 // ----------------------------------------------------------------------------
 bool BinTree::operator==(const BinTree& b) const {
-  return true; // NEEDS TO BE COMPLETED
+  return traverseAndCompare(root, b.root);
 }
 // ----------------------------------------------------------------------------
 
@@ -369,3 +371,33 @@ void BinTree::printInOrder(ostream& output, Node* node) const {
 
 
 
+// ---------------------------  traverseAndCompare  ---------------------------
+// traverseAndCompare
+// Description: 
+//  - Traverses the BinTree and compares the NodeData objects in each Node. 
+//    Returns true if the trees are identical. Returns false if there is a
+//    discrepancy.
+// Precondition: 
+//  - The passed in Nodes are the root of both BinTree's whether they are 
+//    empty or not
+// Postcondition:
+//  - The BinTree's are unchanged, but the function returns true if the 
+//    BinTree's are identical and false if they are not identical
+// ----------------------------------------------------------------------------
+bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const {
+  // If both BinTree's are empty, they're equal
+  if (node == nullptr && otherNode == nullptr) {
+    return true;
+  }
+  // If one of the two Node's is nullptr and the other is not, they are not equal
+  if ((node == nullptr && otherNode != nullptr) || (node != nullptr && otherNode == nullptr)) {
+    return false;
+  } 
+  // Both nodes exist, compare their NodeData's
+  if (*node->data != *otherNode->data) {
+    return false;
+  }
+  // Otherwise these two nodes exist and are equal. Recurse both sides of the BinTree and return all comparisons.
+  return traverseAndCompare(node->left, otherNode->left) && traverseAndCompare(node->right, otherNode->right);
+}
+// ----------------------------------------------------------------------------
