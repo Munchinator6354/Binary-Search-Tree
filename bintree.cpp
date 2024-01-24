@@ -104,8 +104,9 @@ BinTree::~BinTree() {
 //  - 
 // ----------------------------------------------------------------------------
 BinTree& BinTree::operator=(const BinTree& b) {
-  if (*this != &b) {
-    
+  if (this != &b) {     // avoid self-assignment
+    traverseAndDestroy(root);   // make this tree empty
+                        // copy the other tree into this tree
   }
   return *this;
 }
@@ -399,5 +400,39 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
   }
   // Otherwise these two nodes exist and are equal. Recurse both sides of the BinTree and return all comparisons.
   return traverseAndCompare(node->left, otherNode->left) && traverseAndCompare(node->right, otherNode->right);
+}
+// ----------------------------------------------------------------------------
+
+
+
+// ---------------------------  traverseAndDestroy  ----------------------------
+// traverseAndDestroy
+// Description: 
+//  - Traverses the BinTree utilizing a post-order traversal and destroys all 
+//    NodeData objects and Nodes within the tree, successfully deallocating 
+//    their memory from the heap and leaving the root as nullptr due to 
+//    passing a reference to a pointer
+// Precondition: 
+//  - The BinTree has >= 0 Nodes
+// Postcondition:
+//  - The BinTree is empty, all memory on the heap that was utilized has been 
+//    deallocated and the root is set to nullptr
+// ----------------------------------------------------------------------------
+void BinTree::traverseAndDestroy(Node*& node) {
+  if (node != nullptr) {
+    // Post-order traversal
+    if (node->left != nullptr) {
+      traverseAndDestroy(node->left);
+    }
+    if (node->right != nullptr) {
+      traverseAndDestroy(node->right);
+    }
+
+    // At a leaf
+    delete node->data;
+    node->data = nullptr;
+    delete node;
+    node = nullptr;
+  }
 }
 // ----------------------------------------------------------------------------
