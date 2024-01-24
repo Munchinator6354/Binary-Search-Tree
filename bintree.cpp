@@ -116,7 +116,7 @@ BinTree& BinTree::operator=(const BinTree& b) {
 // -----------------------------  == operator  --------------------------------
 // operator ==
 // Description: 
-//  - Compares two Bintrees to see if they are identical to each other. 
+//  - Compares two Bintree's to see if they are identical to each other. 
 //    Returns true if the BinTree's are identical. Returns false if the 
 //    BinTree's are not identical
 // Precondition: 
@@ -139,7 +139,7 @@ bool BinTree::operator==(const BinTree& b) const {
 //  - 
 // ----------------------------------------------------------------------------
 bool BinTree::operator!=(const BinTree& b) const {
-  return true; // NEEDS TO BE COMPLETED
+  return !(*this == b);
 }
 // ----------------------------------------------------------------------------
 
