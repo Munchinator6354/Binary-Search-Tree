@@ -36,17 +36,52 @@ istream& operator>>(istream& input, BinTree& b) {
 // ------------------------------  << operator --------------------------------
 // << operator
 // Description: 
-//  - Overloaded output operator
+//  - Overloaded output operator that takes the BinTree as a parameter and 
+//    prints out it's data via an in-order traversal in the form:
+//    "data1 data2 data3 data5 data6 data7 data8 data9" ...etc
 // Precondition: 
-//  - 
+//  - The BinTree exists and has >= 0 Nodes
 // Postcondition:
-//  - 
+//  - The BinTree is unchanged.
 // ----------------------------------------------------------------------------
 ostream& operator<<(ostream& output, const BinTree& b) {
-  
+  cout << "made it into <<" << endl;
+  b.printInOrder(output, b.root);
+  cout << "made it end <<" << endl;
   return output;
 }
 // ----------------------------------------------------------------------------
+
+
+
+//----------------------------- printInOrder ----------------------------------
+// printInOrder
+// Description:
+//  - Helper fucntion for the << output operator overload that utilizes an 
+//    in-order recursive tree traversal to concatenate each Node's NodeData's 
+//    data value into the output stream one Node at a time
+// Precondition: 
+//  - The output stream could be empty or it could have any number of previous 
+//    Node's NodeData data that was already sent to it so far. The first 
+//    time this function is called the root Node of the BinTree is passed as 
+//    the node parameter
+// Postcondition:
+//  - The current Node's NodeData data has been added to the output stream to 
+//    be used by the << operator overload. This function ends up being called 
+//    over and over until every Node in the tree has been visited
+// ----------------------------------------------------------------------------
+void BinTree::printInOrder(ostream& output, Node* node) const {
+  cout << "do i ever make it in printInOrder?" << endl;
+  if (node != nullptr) {
+    printInOrder(output, node->left);
+    output << *node->data << " ";
+    printInOrder(output, node->right);
+  }
+  return;
+}
+// ----------------------------------------------------------------------------
+
+
 
 // --------------------------  Default Constructor  ----------------------------
 // Default Constructor
@@ -165,25 +200,20 @@ int BinTree::getHeight(const NodeData &nodeToFind) const {
 // --------------------------------  insert  ----------------------------------
 // insert
 // Description: 
-//  - 
+//  - Takes the NodeData pointer passed as a parameter and if it's value 
+//    doesn't already exist in the BinTree, it will create a new Node and 
+//    insert that NodeData into the BinTree with the passed in NodeData data 
+//    value. If the NodeData is a duplicate and already exists in the 
+//    BinTree, the function will do no insertion and will return false.
 // Precondition: 
-//  - The BinTree exists and has >= 0 Nodes already.
+//  - The BinTree exists and has >= 0 Nodes.
 // Postcondition:
-//  - The BinTree exists and has 1 more node, with the data passed in inserted
-//    in a Binary Tree ordering fashion.
+//  - The BinTree exists and has 1 more node if the data passed was not a 
+//    duplicate already found in the BinTree. If it is a duplicate the BinTree 
+//    remains unchanged
 // ----------------------------------------------------------------------------
 bool BinTree::insert(NodeData* nd) {
-  if (root == nullptr) {
-    root = new Node();
-    root->left = nullptr;
-    root->data = nd;
-    root->right = nullptr;
-  } else if (*nd < *root->data) {
-    return insertHelper(root->left, nd);
-  } else if (*nd < *root->data) {
-    return insertHelper(root->right, nd);
-  }
-  return false; // idk why this is needed, how would we get here
+  return insertHelper(root, nd);
 }
 // ----------------------------------------------------------------------------
 
@@ -193,26 +223,29 @@ bool BinTree::insert(NodeData* nd) {
 // insertHelper
 // Description: 
 //  - Helper function for recursive nature of insert function. Has extra 
-//    parameter to account for the node being passed in if it is not the root.
+//    parameter to account for the Node space being looked at. Initially 
+//    starts at the BinTree's root. Uses a pre-order traversal of the BinTree
 // Precondition: 
-//  - 
+//  - The BinTree exists and has >= 0 Nodes.
 // Postcondition:
-//  - 
+//  - The BinTree exists and has 1 more node if the data passed was not a 
+//    duplicate already found in the BinTree. If it is a duplicate the BinTree 
+//    remains unchanged
 // ----------------------------------------------------------------------------
 bool BinTree::insertHelper(Node*& node, NodeData* nd) {
-  if (node == nullptr) {
+  // Pre-order traversal
+  if (node == nullptr) { // found empty space
     node = new Node();
     node->left = nullptr;
     node->data = nd;
     node->right = nullptr;
-    return true;
-  } else if (*nd < *node->data) {
+    return true; //successful insertion
+  } else if (*nd < *node->data) { // found a node with a higher data, must insert left
     return insertHelper(node->left, nd);
-  } else if (*nd < *node->data) {
+  } else if (*nd > *node->data) { // found a node with a lower data, must insert right
     return insertHelper(node->right, nd);
   } 
-  // Otherwise the nd exists in the tree already and we do not insert
-  return false;
+  return false; // in an identical data case, we do nothing
 }
 // ----------------------------------------------------------------------------
 
@@ -352,23 +385,7 @@ void BinTree::sideways(Node* current, int level) const {
 
 
 
-//----------------------------- printInOrder ----------------------------------
-// printInOrder
-// Description:
-//  - 
-// Precondition: 
-//  - 
-// Postcondition:
-//  - 
-// ----------------------------------------------------------------------------
-void BinTree::printInOrder(ostream& output, Node* node) const {
-  if (node != nullptr) {
-    printInOrder(output, node->left);
-    output << *node->data << " ";
-    printInOrder(output, node->right);
-  }
-}
-// ----------------------------------------------------------------------------
+
 
 
 
