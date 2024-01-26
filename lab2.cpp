@@ -53,12 +53,21 @@ int main() {
   cout << "printInOrder" << endl;
   cout << T << endl << endl;
 
-  cout << "T is made empty" << endl;
-  T.makeEmpty();
+  // cout << "T is made empty" << endl;
+  // T.makeEmpty();
   
-  cout << endl << T << endl << endl;
-  cout << "T displaySideways()" << endl << endl;
-  T.displaySideways();
+  // cout << endl << T << endl << endl;
+  // cout << "T displaySideways()" << endl << endl;
+  // T.displaySideways();
+
+  cout << endl << endl << endl << endl;
+  cout << "T2 = T" << endl;
+  T2 = T;
+  cout << "T2 displaySideways()" << endl << endl;
+  T2.displaySideways();
+  dup = T;
+  cout << "dup displaySideways()" << endl << endl;
+  dup.displaySideways();
 
   
 
