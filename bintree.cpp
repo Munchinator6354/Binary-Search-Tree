@@ -270,7 +270,7 @@ bool BinTree::insertHelper(Node*& node, NodeData* nd) {
 //    was found, the found parameter is pointed to that NodeData. If the 
 //    NodeData was not found, then garbage data fills the found parameter.
 // ----------------------------------------------------------------------------
-bool BinTree::retrieve(const NodeData& target, NodeData*& found) {
+bool BinTree::retrieve(const NodeData& target, NodeData*& found) const {
   return retrieveHelper(root, target, found);
 }
 // ----------------------------------------------------------------------------
@@ -294,16 +294,20 @@ bool BinTree::retrieve(const NodeData& target, NodeData*& found) {
 //    was found, the found parameter is pointed to that NodeData. If the 
 //    NodeData was not found, then garbage data fills the found parameter.
 // ----------------------------------------------------------------------------
-bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) {
+bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) const {
+  // Pre-order traversal
   if (curr == nullptr) {
-    found = nullptr; // do i need this line?????
+    // cout << "curr == nullptr" << endl;
     return false;
   } else if (*curr->data == target) {
-    *found = *curr->data;
+    // cout << "found the curr->data" << endl;
+    found = curr->data;
     return true;
-  } else if (*curr->data < target) {
+  } else if (target < *curr->data) {
+    // cout << "go left" << endl;
     return retrieveHelper(curr->left, target, found);
   } else {
+    // cout << "go right" << endl;
     return retrieveHelper(curr->right, target, found);
   }
 }

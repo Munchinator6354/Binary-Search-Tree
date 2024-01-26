@@ -44,7 +44,7 @@ public:
   void displaySideways() const;
   int getHeight(const NodeData &nodeToFind) const;
   bool insert(NodeData* nd); // bool return is to check that a ndoe was inserted and it wasn't a duplicate
-  bool retrieve(const NodeData& target, NodeData*& found);
+  bool retrieve(const NodeData& target, NodeData*& found) const;
 
 private:
   struct Node {
@@ -59,7 +59,7 @@ private:
   void inorderHelper( ... ) const;
   bool insertHelper(Node*& node, NodeData* nd);
   void printInOrder(ostream& output, Node* node) const;
-  bool retrieveHelper(Node* curr, const NodeData& target, NodeData*& found);
+  bool retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) const;
   void sideways(Node*, int) const;			// provided below, helper for displaySideways()
   bool traverseAndCompare(const Node* node, const Node* otherNode) const;
   void traverseAndCopy(Node* otherTreeNode);
