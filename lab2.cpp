@@ -53,32 +53,26 @@ int main() {
   cout << "printInOrder" << endl;
   cout << T << endl << endl;
 
-  // cout << "T is made empty" << endl;
-  // T.makeEmpty();
-  
-  // cout << endl << T << endl << endl;
-  // cout << "T displaySideways()" << endl << endl;
-  // T.displaySideways();
 
   cout << endl << endl << endl << endl;
   cout << "T2 = T" << endl;
   T2 = T;
   cout << "T2 displaySideways()" << endl << endl;
   T2.displaySideways();
-  dup = T;
-  cout << "dup displaySideways()" << endl << endl;
-  dup.displaySideways();
 
   
-
-  
-  
-	// cout << endl;
+	// cout << endl << endl;;
 	// BinTree first(T);                  // test copy constructor
+ //  cout << "first.displaySideways()" << endl << endl;
+ //  first.displaySideways();
+ //  cout << endl << endl << endl;
+ //  cout << "testing assignment operator" << endl;
 	// dup = dup = T;                     // test operator=, self-assignment
-	// while (!infile.eof()) {
-	// 	cout << "Tree Inorder:" << endl << T;             // operator<< does endl
-	// 	T.displaySideways();
+ //  dup.displaySideways();
+
+	while (!infile.eof()) {
+		cout << "Tree Inorder:" << endl << T;             // operator<< does endl
+		T.displaySideways();
 
 	// 	// test retrieve 
 	// 	NodeData* p;                    // pointer of retrieved object
