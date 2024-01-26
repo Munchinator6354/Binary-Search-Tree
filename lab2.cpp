@@ -46,11 +46,23 @@ int main() {
 	cout << "Initial data:" << endl << "  ";
 	buildTree(T, infile);              // builds and displays initial data
   cout << endl << "hello world" << endl;
-
+  
+  cout << "T displaySideways()" << endl << endl;
   T.displaySideways();
-  // cout << T;
+  
+  cout << "printInOrder" << endl;
+  cout << T << endl << endl;
 
+  cout << "T is made empty" << endl;
+  T.makeEmpty();
+  
+  cout << endl << T << endl << endl;
+  cout << "T displaySideways()" << endl << endl;
+  T.displaySideways();
 
+  
+
+  
   
 	// cout << endl;
 	// BinTree first(T);                  // test copy constructor

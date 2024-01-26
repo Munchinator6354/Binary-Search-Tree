@@ -45,9 +45,7 @@ istream& operator>>(istream& input, BinTree& b) {
 //  - The BinTree is unchanged.
 // ----------------------------------------------------------------------------
 ostream& operator<<(ostream& output, const BinTree& b) {
-  cout << "made it into <<" << endl;
   b.printInOrder(output, b.root);
-  cout << "made it end <<" << endl;
   return output;
 }
 // ----------------------------------------------------------------------------
@@ -71,7 +69,6 @@ ostream& operator<<(ostream& output, const BinTree& b) {
 //    over and over until every Node in the tree has been visited
 // ----------------------------------------------------------------------------
 void BinTree::printInOrder(ostream& output, Node* node) const {
-  cout << "do i ever make it in printInOrder?" << endl;
   if (node != nullptr) {
     printInOrder(output, node->left);
     output << *node->data << " ";
@@ -132,16 +129,19 @@ BinTree::~BinTree() {
 // ------------------------------  = operator  --------------------------------
 // = operator
 // Description: 
-//  - 
+//  - This operator overload is used to assign the contents of the passed in 
+//    BinTree to this Bintree. It utilizes a deep copy method and makes sure 
+//    to empty this BinTree of any Nodes and NodeData objects before beginning 
+//    the copy.
 // Precondition: 
-//  - 
+//  - This BinTree and the passed in BinTree exist and both have >= 0 Nodes
 // Postcondition:
-//  - 
+//  - This BinTree contents appear to be identical to the passed in BinTree
 // ----------------------------------------------------------------------------
 BinTree& BinTree::operator=(const BinTree& b) {
   if (this != &b) {     // avoid self-assignment
-    traverseAndDestroy(root);   // make this tree empty
-                        // copy the other tree into this tree
+    traverseAndMakeEmpty(root);   // make this tree empty
+    traverseAndCopy(b.root);     // copy the other tree into this tree                  
   }
   return *this;
 }
@@ -223,8 +223,8 @@ bool BinTree::insert(NodeData* nd) {
 // insertHelper
 // Description: 
 //  - Helper function for recursive nature of insert function. Has extra 
-//    parameter to account for the Node space being looked at. Initially 
-//    starts at the BinTree's root. Uses a pre-order traversal of the BinTree
+//    parameter to account for the Node space being looked at. Uses a pre-order 
+//    traversal of the BinTree from the point of the node passed in
 // Precondition: 
 //  - The BinTree exists and has >= 0 Nodes.
 // Postcondition:
@@ -422,8 +422,26 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
 
 
 
-// ---------------------------  traverseAndDestroy  ----------------------------
-// traverseAndDestroy
+// -------------------------------  makeEmpty  --------------------------------
+// makeEmpty
+// Description: 
+//  - This function empties the Bin Tree of all it's Nodes and NodeData 
+//    objects utilizing a helper function of traverseAndMakeEmpty
+// Precondition: 
+//  - The BinTree has >= 0 Nodes
+// Postcondition:
+//  - The BinTree is empty, all memory on the heap that was utilized has been 
+//    deallocated and the root is set to nullptr
+// ----------------------------------------------------------------------------
+void BinTree::makeEmpty() {
+  traverseAndMakeEmpty(root);
+}
+// ----------------------------------------------------------------------------
+
+
+
+// -------------------------  traverseAndMakeEmpty  ---------------------------
+// traverseAndMakeEmpty
 // Description: 
 //  - Traverses the BinTree utilizing a post-order traversal and destroys all 
 //    NodeData objects and Nodes within the tree, successfully deallocating 
@@ -435,14 +453,14 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
 //  - The BinTree is empty, all memory on the heap that was utilized has been 
 //    deallocated and the root is set to nullptr
 // ----------------------------------------------------------------------------
-void BinTree::traverseAndDestroy(Node*& node) {
+void BinTree::traverseAndMakeEmpty(Node*& node) {
   if (node != nullptr) {
     // Post-order traversal
     if (node->left != nullptr) {
-      traverseAndDestroy(node->left);
+        traverseAndMakeEmpty(node->left);
     }
     if (node->right != nullptr) {
-      traverseAndDestroy(node->right);
+        traverseAndMakeEmpty(node->right);
     }
 
     // At a leaf
@@ -453,3 +471,32 @@ void BinTree::traverseAndDestroy(Node*& node) {
   }
 }
 // ----------------------------------------------------------------------------
+
+
+
+// ----------------------------  traverseAndCopy  -----------------------------
+// traverseAndCopy
+// Description: 
+//  - Traverses the BinTree utilizing a pre-order traversal 
+// Precondition: 
+//  - The BinTree has been emptied and has 0 Nodes and 0 NodeData objects
+// Postcondition:
+//  - The Nodes and NodeData objets in this BinTree are identical to the 
+//    passed in BinTree via a deep copy
+// ----------------------------------------------------------------------------
+void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of 
+  // If the other BinTree's Node space is occupied, we insert that value in this BinTree
+  if (otherTreeNode != nullptr) {
+    insert(otherTreeNode->data);
+    if (otherTreeNode->left != nullptr) {
+      traverseAndCopy(otherTreeNode->left);
+    }
+    if (otherTreeNode->right != nullptr) {
+      traverseAndCopy(otherTreeNode->right);
+    }
+  } 
+  
+}
+// ----------------------------------------------------------------------------
+
+
