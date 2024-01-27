@@ -181,9 +181,8 @@ bool BinTree::operator!=(const BinTree& b) const {
 // ----------------------------------------------------------------------------
 
 
-
-// -------------------------------  getHeight  --------------------------------
-// getHeight
+// -----------------------------  arrayToBSTree  ------------------------------
+// arrayToBSTree
 // Description: 
 //  - 
 // Precondition: 
@@ -191,8 +190,82 @@ bool BinTree::operator!=(const BinTree& b) const {
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-int BinTree::getHeight(const NodeData &nodeToFind) const {
-  return 0; // NEEDS TO BE COMPLETED
+void BinTree::arrayToBSTree(NodeData* []) {
+
+}
+// ----------------------------------------------------------------------------
+
+
+
+// -----------------------------  bstreeToArray  ------------------------------
+// bstreeToArray
+// Description: 
+//  - 
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+void BinTree::bstreeToArray(NodeData* []) {
+
+}
+// ----------------------------------------------------------------------------
+
+
+
+// ----------------------------  displaySideways  -----------------------------
+// displaySideways
+// Description: 
+//  - 
+// Precondition: 
+//  - NONE
+// Postcondition:
+//  - BinTree remains unchanged
+// ----------------------------------------------------------------------------
+void BinTree::displaySideways() const {
+  sideways(root, 0);
+}
+// ----------------------------------------------------------------------------
+
+
+
+// ------------------------------  getHeight  ---------------------------------
+// getHeight
+// Description: 
+//  - Returns the height of the Node in the BinTree that houses the NodeData 
+//    object passed in as a parameter. A leaf Node in the tree is considered a 
+//    height of 1 and every Node above that is an additional +1 height
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+int BinTree::getHeight(const NodeData& ndToFind) const {
+  int height = 0;
+  // If the BinTree is not empty, search for the NodeData
+  if (!isEmpty()) {
+    height = getHeightHelper(root, ndToFind, height);
+  }
+  return height;
+}
+// ----------------------------------------------------------------------------
+
+
+// ---------------------------  getHeightHelper  ------------------------------
+// getHeightHelper
+// Description: 
+//  - 
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+int BinTree::getHeightHelper(const Node* node, const NodeData* ndToFind, int height) const {
+  //   If we find the Node with the target NodeData
+  if (node->data == ndToFind) {
+    
+    
+  }
 }
 // ----------------------------------------------------------------------------
 
@@ -252,6 +325,41 @@ bool BinTree::insertHelper(Node*& node, NodeData* nd) {
 
 
 
+// -------------------------------  isEmpty  ----------------------------------
+// isEmpty
+// Description: 
+//  - Returns true if the BinTree is empty of Nodes. Returns false if there is 
+//    1+ Nodes
+// Precondition: 
+//  - The BinTree exists and has >= 0 Nodes.
+// Postcondition:
+//  - The BinTree remains unchanged
+// ----------------------------------------------------------------------------
+bool BinTree::isEmpty() const {
+  return (root == nullptr);
+}
+// ----------------------------------------------------------------------------
+
+
+
+// -------------------------------  makeEmpty  --------------------------------
+// makeEmpty
+// Description: 
+//  - This function empties the Bin Tree of all it's Nodes and NodeData 
+//    objects utilizing a helper function of traverseAndMakeEmpty
+// Precondition: 
+//  - The BinTree has >= 0 Nodes
+// Postcondition:
+//  - The BinTree is empty, all memory on the heap that was utilized has been 
+//    deallocated and the root is set to nullptr
+// ----------------------------------------------------------------------------
+void BinTree::makeEmpty() {
+  traverseAndMakeEmpty(root);
+}
+// ----------------------------------------------------------------------------
+
+
+
 // -------------------------------  retrieve  ---------------------------------
 // retrieve
 // Description: 
@@ -297,67 +405,15 @@ bool BinTree::retrieve(const NodeData& target, NodeData*& found) const {
 bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) const {
   // Pre-order traversal
   if (curr == nullptr) {
-    // cout << "curr == nullptr" << endl;
     return false;
   } else if (*curr->data == target) {
-    // cout << "found the curr->data" << endl;
     found = curr->data;
     return true;
   } else if (target < *curr->data) {
-    // cout << "go left" << endl;
     return retrieveHelper(curr->left, target, found);
   } else {
-    // cout << "go right" << endl;
     return retrieveHelper(curr->right, target, found);
   }
-}
-// ----------------------------------------------------------------------------
-
-
-
-// -----------------------------  bstreeToArray  ------------------------------
-// bstreeToArray
-// Description: 
-//  - 
-// Precondition: 
-//  - 
-// Postcondition:
-//  - 
-// ----------------------------------------------------------------------------
-void BinTree::bstreeToArray(NodeData* []) {
-
-}
-// ----------------------------------------------------------------------------
-
-
-
-// -----------------------------  arrayToBSTree  ------------------------------
-// arrayToBSTree
-// Description: 
-//  - 
-// Precondition: 
-//  - 
-// Postcondition:
-//  - 
-// ----------------------------------------------------------------------------
-void BinTree::arrayToBSTree(NodeData* []) {
-
-}
-// ----------------------------------------------------------------------------
-
-
-
-// ----------------------------  displaySideways  -----------------------------
-// displaySideways
-// Description: 
-//  - 
-// Precondition: 
-//  - NONE
-// Postcondition:
-//  - BinTree remains unchanged
-// ----------------------------------------------------------------------------
-void BinTree::displaySideways() const {
-  sideways(root, 0);
 }
 // ----------------------------------------------------------------------------
 
@@ -387,10 +443,6 @@ void BinTree::sideways(Node* current, int level) const {
   }
 }
 // ----------------------------------------------------------------------------
-
-
-
-
 
 
 
@@ -427,19 +479,28 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
 
 
 
-// -------------------------------  makeEmpty  --------------------------------
-// makeEmpty
+// ----------------------------  traverseAndCopy  -----------------------------
+// traverseAndCopy
 // Description: 
-//  - This function empties the Bin Tree of all it's Nodes and NodeData 
-//    objects utilizing a helper function of traverseAndMakeEmpty
+//  - Traverses the BinTree utilizing a pre-order traversal 
 // Precondition: 
-//  - The BinTree has >= 0 Nodes
+//  - The BinTree has been emptied and has 0 Nodes and 0 NodeData objects
 // Postcondition:
-//  - The BinTree is empty, all memory on the heap that was utilized has been 
-//    deallocated and the root is set to nullptr
+//  - The Nodes and NodeData objets in this BinTree are identical to the 
+//    passed in BinTree via a deep copy
 // ----------------------------------------------------------------------------
-void BinTree::makeEmpty() {
-  traverseAndMakeEmpty(root);
+void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of 
+  // If the other BinTree's Node space is occupied, we insert that value in this BinTree
+  if (otherTreeNode != nullptr) {
+    insert(otherTreeNode->data);
+    if (otherTreeNode->left != nullptr) {
+      traverseAndCopy(otherTreeNode->left);
+    }
+    if (otherTreeNode->right != nullptr) {
+      traverseAndCopy(otherTreeNode->right);
+    }
+  } 
+
 }
 // ----------------------------------------------------------------------------
 
@@ -467,7 +528,6 @@ void BinTree::traverseAndMakeEmpty(Node*& node) {
     if (node->right != nullptr) {
         traverseAndMakeEmpty(node->right);
     }
-
     // At a leaf
     delete node->data;
     node->data = nullptr;
@@ -476,32 +536,4 @@ void BinTree::traverseAndMakeEmpty(Node*& node) {
   }
 }
 // ----------------------------------------------------------------------------
-
-
-
-// ----------------------------  traverseAndCopy  -----------------------------
-// traverseAndCopy
-// Description: 
-//  - Traverses the BinTree utilizing a pre-order traversal 
-// Precondition: 
-//  - The BinTree has been emptied and has 0 Nodes and 0 NodeData objects
-// Postcondition:
-//  - The Nodes and NodeData objets in this BinTree are identical to the 
-//    passed in BinTree via a deep copy
-// ----------------------------------------------------------------------------
-void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of 
-  // If the other BinTree's Node space is occupied, we insert that value in this BinTree
-  if (otherTreeNode != nullptr) {
-    insert(otherTreeNode->data);
-    if (otherTreeNode->left != nullptr) {
-      traverseAndCopy(otherTreeNode->left);
-    }
-    if (otherTreeNode->right != nullptr) {
-      traverseAndCopy(otherTreeNode->right);
-    }
-  } 
-  
-}
-// ----------------------------------------------------------------------------
-
 

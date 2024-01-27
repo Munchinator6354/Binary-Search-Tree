@@ -28,8 +28,6 @@ public:
   BinTree();
   BinTree(const BinTree& b);
   ~BinTree();
-  bool isEmpty() const;
-  void makeEmpty();
 
   // Assignment Operator
   BinTree& operator=(const BinTree& b);
@@ -42,9 +40,11 @@ public:
   void arrayToBSTree(NodeData* []);
   void bstreeToArray(NodeData* []);
   void displaySideways() const;
-  int getHeight(const NodeData &nodeToFind) const;
+  int getHeight(const NodeData& ndToFind) const;
   bool insert(NodeData* nd); // bool return is to check that a ndoe was inserted and it wasn't a duplicate
+  bool isEmpty() const;
   bool retrieve(const NodeData& target, NodeData*& found) const;
+  void makeEmpty();
 
 private:
   struct Node {
@@ -56,6 +56,7 @@ private:
   Node* root;
 
   // utility functions
+  int getHeightHelper(const Node* node, const NodeData* ndToFind, int height) const;
   void inorderHelper( ... ) const;
   bool insertHelper(Node*& node, NodeData* nd);
   void printInOrder(ostream& output, Node* node) const;
@@ -64,6 +65,7 @@ private:
   bool traverseAndCompare(const Node* node, const Node* otherNode) const;
   void traverseAndCopy(Node* otherTreeNode);
   void traverseAndMakeEmpty(Node*& node);
+  int getHeightOfNode(const Node node);
 
 
 };
