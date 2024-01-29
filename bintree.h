@@ -40,7 +40,7 @@ public:
   void arrayToBSTree(NodeData* []);
   void bstreeToArray(NodeData* []);
   void displaySideways() const;
-  int getHeight(const NodeData& ndToFind) const;
+  int getHeight(const NodeData& target) const;
   bool insert(NodeData* nd); // bool return is to check that a ndoe was inserted and it wasn't a duplicate
   bool isEmpty() const;
   bool retrieve(const NodeData& target, NodeData*& found) const;
@@ -56,7 +56,9 @@ private:
   Node* root;
 
   // utility functions
-  int getHeightHelper(const Node* node, const NodeData* ndToFind, int height) const;
+  Node* findNode(const NodeData& target) const;
+  Node* findNodeHelper(Node* node, const NodeData& target) const;
+  int getHeightHelper(const Node* node) const;
   void inorderHelper( ... ) const;
   bool insertHelper(Node*& node, NodeData* nd);
   void printInOrder(ostream& output, Node* node) const;

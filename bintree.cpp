@@ -234,38 +234,95 @@ void BinTree::displaySideways() const {
 // Description: 
 //  - Returns the height of the Node in the BinTree that houses the NodeData 
 //    object passed in as a parameter. A leaf Node in the tree is considered a 
-//    height of 1 and every Node above that is an additional +1 height
+//    height of 1 and every Node above that is an additional +1 height. If the
+//    target NodeData does not exist in the BinTree, the function returns a 
+//    height of 0
+// Precondition: 
+//  - The BinTree exists and has >= 0 Nodes. The NodeData object may or may 
+//    not exist within the BinTree
+// Postcondition:
+//  - The BinTree is unchanged
+// ----------------------------------------------------------------------------
+int BinTree::getHeight(const NodeData& target) const {
+  // Create a pointer to the potential Node housing the target NodeData
+  // If it doesn't exist, nullptr is returned
+  Node* targetNode = findNode(target);
+  // // if the Node exists, return the height of the Node
+  if (targetNode != nullptr) {
+    return getHeightHelper(targetNode);
+  }
+  // Height is 0 if Node not found
+  return 0;
+}
+// ----------------------------------------------------------------------------
+
+
+
+// ------------------------------  findNode  ---------------------------------
+// findNode
+// Description: 
+//  - Looks for a Node in the BinTree that has a NodeData object that 
+//    matches the passed NodeData object. If the Node exists, a pointer to 
+//    that Node is returned. If the Node does not exist then nullptr is 
+//    returned;
 // Precondition: 
 //  - 
 // Postcondition:
-//  - 
+//  - The BinTree is unchanged
 // ----------------------------------------------------------------------------
-int BinTree::getHeight(const NodeData& ndToFind) const {
-  int height = 0;
-  // If the BinTree is not empty, search for the NodeData
-  if (!isEmpty()) {
-    height = getHeightHelper(root, ndToFind, height);
-  }
-  return height;
+BinTree::Node* BinTree::findNode(const NodeData& target) const {
+  return findNodeHelper(root, target);
 }
 // ----------------------------------------------------------------------------
+
+
+
+// -------------------------  findNodeHelper  ---------------------------------
+// findNodeHelper
+// Description: 
+//  - Looks for a Node in the BinTree that has a NodeData object that 
+//    matches the passed NodeData object. If the Node exists, a pointer to 
+//    that Node is returned. If the Node does not exist then nullptr is 
+//    returned;
+// Precondition: 
+//  - 
+// Postcondition:
+//  - The BinTree is unchanged
+// ----------------------------------------------------------------------------
+BinTree::Node* BinTree::findNodeHelper(Node* node, const NodeData& target) const {
+  if (node == nullptr) {
+    return nullptr;
+  }
+  if (*node->data == target) {
+    return node;
+  }
+  Node* leftSearch = findNodeHelper(node->left, target);
+  if (leftSearch != nullptr) {
+    return leftSearch;
+  }
+  Node* rightSearch = findNodeHelper(node->right, target);
+  return rightSearch;
+}
+// ----------------------------------------------------------------------------
+
 
 
 // ---------------------------  getHeightHelper  ------------------------------
 // getHeightHelper
 // Description: 
-//  - 
+//  - Helper function for getHeight. 
 // Precondition: 
-//  - 
+//  - This function is only called if BinTree has >= 1 Nodes.
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-int BinTree::getHeightHelper(const Node* node, const NodeData* ndToFind, int height) const {
-  //   If we find the Node with the target NodeData
-  if (node->data == ndToFind) {
-    
-    
+int BinTree::getHeightHelper(const Node* node) const {
+  if (node == nullptr) {
+    return 0;
   }
+  int leftHeight = getHeightHelper(node->left);
+  int rightHeight = getHeightHelper(node->right);
+  return 1 + max(leftHeight, rightHeight);
 }
 // ----------------------------------------------------------------------------
 
