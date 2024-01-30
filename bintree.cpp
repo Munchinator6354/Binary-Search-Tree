@@ -142,13 +142,14 @@ BinTree::~BinTree() {
 BinTree& BinTree::operator=(const BinTree& b) {
   if (this != &b) {     // avoid self-assignment
     traverseAndMakeEmpty(root);   // make this tree empty
-    traverseAndCopy(b.root);     // copy the other tree into this tree                  
-  }
+    traverseAndCopy(b.root);     // copy the other tree into this tree       
+  } 
   return *this;
 }
 // ----------------------------------------------------------------------------
 
-
+// dup = T
+// dup = dup
 
 // -----------------------------  == operator  --------------------------------
 // operator ==
@@ -190,8 +191,11 @@ bool BinTree::operator!=(const BinTree& b) const {
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-void BinTree::arrayToBSTree(NodeData* []) {
-
+void BinTree::arrayToBSTree(NodeData* arr[]) {
+  // this might not work because the array is a statically allocated array of 100 elements and we might need to loop WHILE the NodeData is not equal to NULL according to assignment instructions
+  for (int i = 0; i < 100; i++) {
+    insert(arr[i]);
+  }
 }
 // ----------------------------------------------------------------------------
 
@@ -206,8 +210,31 @@ void BinTree::arrayToBSTree(NodeData* []) {
 // Postcondition:
 //  - 
 // ----------------------------------------------------------------------------
-void BinTree::bstreeToArray(NodeData* []) {
+void BinTree::bstreeToArray(NodeData* arr[]) {
+  cout << "Inside bstreeToArray" << endl;
+  int index = 0;
+  traverseAndArrayify(root, arr, index);
+}
+// ----------------------------------------------------------------------------
 
+
+
+// --------------------------  traverseAndArrayify  ---------------------------
+// traverseAndArrayify
+// Description: 
+//  - 
+// Precondition: 
+//  - 
+// Postcondition:
+//  - 
+// ----------------------------------------------------------------------------
+void BinTree::traverseAndArrayify(Node* node, NodeData* arr[], int& index) {
+  if (node == nullptr) {
+    return;
+  }
+  traverseAndArrayify(node->left, arr, index);
+  arr[index++] = node->data;
+  traverseAndArrayify(node->right, arr, index);
 }
 // ----------------------------------------------------------------------------
 
@@ -224,35 +251,6 @@ void BinTree::bstreeToArray(NodeData* []) {
 // ----------------------------------------------------------------------------
 void BinTree::displaySideways() const {
   sideways(root, 0);
-}
-// ----------------------------------------------------------------------------
-
-
-
-// ------------------------------  getHeight  ---------------------------------
-// getHeight
-// Description: 
-//  - Returns the height of the Node in the BinTree that houses the NodeData 
-//    object passed in as a parameter. A leaf Node in the tree is considered a 
-//    height of 1 and every Node above that is an additional +1 height. If the
-//    target NodeData does not exist in the BinTree, the function returns a 
-//    height of 0
-// Precondition: 
-//  - The BinTree exists and has >= 0 Nodes. The NodeData object may or may 
-//    not exist within the BinTree
-// Postcondition:
-//  - The BinTree is unchanged
-// ----------------------------------------------------------------------------
-int BinTree::getHeight(const NodeData& target) const {
-  // Create a pointer to the potential Node housing the target NodeData
-  // If it doesn't exist, nullptr is returned
-  Node* targetNode = findNode(target);
-  // // if the Node exists, return the height of the Node
-  if (targetNode != nullptr) {
-    return getHeightHelper(targetNode);
-  }
-  // Height is 0 if Node not found
-  return 0;
 }
 // ----------------------------------------------------------------------------
 
@@ -307,14 +305,43 @@ BinTree::Node* BinTree::findNodeHelper(Node* node, const NodeData& target) const
 
 
 
+// ------------------------------  getHeight  ---------------------------------
+// getHeight
+// Description: 
+//  - Returns the height of the Node in the BinTree that houses the NodeData 
+//    object passed in as a parameter. A leaf Node in the tree is considered a 
+//    height of 1 and every Node above that is an additional +1 height. If the
+//    target NodeData does not exist in the BinTree, the function returns a 
+//    height of 0
+// Precondition: 
+//  - The BinTree exists and has >= 0 Nodes. The NodeData object may or may 
+//    not exist within the BinTree
+// Postcondition:
+//  - The BinTree is unchanged
+// ----------------------------------------------------------------------------
+int BinTree::getHeight(const NodeData& target) const {
+  // Create a pointer to the potential Node housing the target NodeData
+  // If it doesn't exist, nullptr is returned
+  Node* targetNode = findNode(target);
+  // // if the Node exists, return the height of the Node
+  if (targetNode != nullptr) {
+    return getHeightHelper(targetNode);
+  }
+  // Height is 0 if Node not found
+  return 0;
+}
+// ----------------------------------------------------------------------------
+
+
+
 // ---------------------------  getHeightHelper  ------------------------------
 // getHeightHelper
 // Description: 
-//  - Helper function for getHeight. 
+//  - Recursive helper function for getHeight. 
 // Precondition: 
 //  - This function is only called if BinTree has >= 1 Nodes.
 // Postcondition:
-//  - 
+//  - The BinTree is unchanged
 // ----------------------------------------------------------------------------
 int BinTree::getHeightHelper(const Node* node) const {
   if (node == nullptr) {
@@ -368,9 +395,12 @@ bool BinTree::insertHelper(Node*& node, NodeData* nd) {
   if (node == nullptr) { // found empty space
     node = new Node();
     node->left = nullptr;
-    node->data = nd;
+    // THIS IS THE NEW CODE I'M ADDING TO SEE ABOUT DEEP COPYING THE NODE DATA's
+    NodeData* newND = new NodeData(*nd);
+    node->data = newND;
+    // node->data = nd; // COMMENTING THIS OUT, I THINK THIS IS SHALLOW COPYING
     node->right = nullptr;
-    return true; //successful insertion
+    return true; // successful insertion
   } else if (*nd < *node->data) { // found a node with a higher data, must insert left
     return insertHelper(node->left, nd);
   } else if (*nd > *node->data) { // found a node with a lower data, must insert right
@@ -546,13 +576,18 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
 //  - The Nodes and NodeData objets in this BinTree are identical to the 
 //    passed in BinTree via a deep copy
 // ----------------------------------------------------------------------------
-void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of 
-  // If the other BinTree's Node space is occupied, we insert that value in this BinTree
+void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of the other BinTree
+
+  //Pre-order traversal
+  
+  // If the other BinTree's Node space is occupied, we insert that NodeData into this BinTree
   if (otherTreeNode != nullptr) {
     insert(otherTreeNode->data);
+    // Recursing left
     if (otherTreeNode->left != nullptr) {
       traverseAndCopy(otherTreeNode->left);
     }
+    // Recursing right
     if (otherTreeNode->right != nullptr) {
       traverseAndCopy(otherTreeNode->right);
     }
@@ -577,6 +612,9 @@ void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root nod
 //    deallocated and the root is set to nullptr
 // ----------------------------------------------------------------------------
 void BinTree::traverseAndMakeEmpty(Node*& node) {
+  if (node == nullptr) {
+    return;
+  }
   if (node != nullptr) {
     // Post-order traversal
     if (node->left != nullptr) {

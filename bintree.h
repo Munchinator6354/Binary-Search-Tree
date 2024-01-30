@@ -37,8 +37,8 @@ public:
   bool operator!=(const BinTree& b) const;
 
   // Others
-  void arrayToBSTree(NodeData* []);
-  void bstreeToArray(NodeData* []);
+  void arrayToBSTree(NodeData* arr[]);
+  void bstreeToArray(NodeData* arr[]);
   void displaySideways() const;
   int getHeight(const NodeData& target) const;
   bool insert(NodeData* nd); // bool return is to check that a ndoe was inserted and it wasn't a duplicate
@@ -64,6 +64,7 @@ private:
   void printInOrder(ostream& output, Node* node) const;
   bool retrieveHelper(Node* curr, const NodeData& target, NodeData*& found) const;
   void sideways(Node*, int) const;			// provided below, helper for displaySideways()
+  void traverseAndArrayify(Node* node, NodeData* arr[], int& index);
   bool traverseAndCompare(const Node* node, const Node* otherNode) const;
   void traverseAndCopy(Node* otherTreeNode);
   void traverseAndMakeEmpty(Node*& node);
