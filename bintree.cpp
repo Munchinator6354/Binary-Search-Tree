@@ -121,7 +121,7 @@ BinTree::BinTree(const BinTree& b) {
 //  - 
 // ----------------------------------------------------------------------------
 BinTree::~BinTree() {
-  
+  makeEmpty();
 }
 // ----------------------------------------------------------------------------
 
@@ -192,10 +192,23 @@ bool BinTree::operator!=(const BinTree& b) const {
 //  - 
 // ----------------------------------------------------------------------------
 void BinTree::arrayToBSTree(NodeData* arr[]) {
-  // this might not work because the array is a statically allocated array of 100 elements and we might need to loop WHILE the NodeData is not equal to NULL according to assignment instructions
+  cout << "I'm inside the arrayToBSTree function: " << endl;
+
+  
+
+  // Count how many valid NodeData pointers there are
+  int numND = 0;
+  
   for (int i = 0; i < 100; i++) {
-    insert(arr[i]);
+    if (arr[i] != NULL) {
+        numND++;
+    }
   }
+
+  int centerND = numND / 2;
+
+  root = arr[numND];
+  
 }
 // ----------------------------------------------------------------------------
 
@@ -204,19 +217,18 @@ void BinTree::arrayToBSTree(NodeData* arr[]) {
 // -----------------------------  bstreeToArray  ------------------------------
 // bstreeToArray
 // Description: 
-//  - Takes the Node pointers out of the BinTree and puts them into the 
+//  - Takes the NodeData pointers out of the BinTree and puts them into the 
 //    passed in array. Utilizes the in-order traverseAndArrayify function for 
 //    the array building. Utilizes the traverseAndMakeEmpty function to empty 
 //    the BinTree of all Nodes and NodeData objects afterwards.
 // Precondition: 
 //  - The BinTree has >0 Nodes. The passed in array is filled to a static 
-//    quantity of 100 NULL spaces able to be filled
+//    quantity of 100 NULL NodaData* spaces able to be filled
 // Postcondition:
 //  - The BinTree is empty and the passed in array is filled with pointers to 
-//    the Nodes that were originally in the BinTree
+//    the NodeData objects that were originally in the BinTree
 // ----------------------------------------------------------------------------
 void BinTree::bstreeToArray(NodeData* arr[]) {
-  cout << "Inside bstreeToArray" << endl;
   int index = 0;
   traverseAndArrayify(root, arr, index);
   traverseAndMakeEmpty(root);
@@ -228,11 +240,17 @@ void BinTree::bstreeToArray(NodeData* arr[]) {
 // --------------------------  traverseAndArrayify  ---------------------------
 // traverseAndArrayify
 // Description: 
-//  - 
+//  - This function starts out expecting the root Node of the BinTree, an 
+//    array statically allocated to 100 NodeData pointers each as NULL, and 
+//    the current index being 0. It then recursively traverses the BinTree 
+//    and inserts the NodeData objects into the array. The function does no 
+//    insertion into the array if it comes accross an empty Node, including 
+//    if trying to arrayify an empty BinTree
 // Precondition: 
-//  - 
+//  - BinTree has >0 Nodes. The passed in array is fille to a static amount 
+//    of 100 NULL NodeData* spaces able to be filled. The index is initially 0
 // Postcondition:
-//  - 
+//  - All NodeData's in the BinTree have been inserted into the array
 // ----------------------------------------------------------------------------
 void BinTree::traverseAndArrayify(Node* node, NodeData* arr[], int& index) {
   if (node == nullptr) {
@@ -249,11 +267,12 @@ void BinTree::traverseAndArrayify(Node* node, NodeData* arr[], int& index) {
 // ----------------------------  displaySideways  -----------------------------
 // displaySideways
 // Description: 
-//  - 
+//  - Function provided by the professor to display the contents of the 
+//    BinTree in a sideways fashion
 // Precondition: 
 //  - NONE
 // Postcondition:
-//  - BinTree remains unchanged
+//  - BinTree remains unchanged and contents are visually output to user
 // ----------------------------------------------------------------------------
 void BinTree::displaySideways() const {
   sideways(root, 0);
@@ -517,9 +536,9 @@ bool BinTree::retrieveHelper(Node* curr, const NodeData& target, NodeData*& foun
 // Description:
 //  - Helper method for displaySideways
 // Precondition: 
-//  - 
+//  - The displaySideways function was called
 // Postcondition:
-//  - BinTree remains unchanged
+//  - BinTree remains unchanged. Contents are visually displayed to the user
 // ----------------------------------------------------------------------------
 void BinTree::sideways(Node* current, int level) const {
   if (current != NULL) {
