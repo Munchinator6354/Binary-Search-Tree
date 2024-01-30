@@ -11,25 +11,25 @@
 
 #include "bintree.h"
 
-// ------------------------------  >> operator --------------------------------
-// >> operator
-// Description: 
-//  - Overloaded input operator
-// Precondition: 
-//  - 
-// Postcondition:
-//  - 
-// ----------------------------------------------------------------------------
-istream& operator>>(istream& input, BinTree& b) {
-  string charSet;
-  // While we get pairs of numbers appropriately, set up those Terms
-  while (input >> charSet && charSet != "$$") {
-    // take the charSet and insert it into the tree
-    // need to write the insert function
-  }
-  return input;
-}
-// ----------------------------------------------------------------------------
+// // ------------------------------  >> operator --------------------------------
+// // >> operator
+// // Description: 
+// //  - Overloaded input operator
+// // Precondition: 
+// //  - 
+// // Postcondition:
+// //  - 
+// // ----------------------------------------------------------------------------
+// istream& operator>>(istream& input, BinTree& b) {
+//   string charSet;
+//   // While we get pairs of numbers appropriately, set up those Terms
+//   while (input >> charSet && charSet != "$$") {
+//     // take the charSet and insert it into the tree
+//     // need to write the insert function
+//   }
+//   return input;
+// }
+// // ----------------------------------------------------------------------------
 
 
 
@@ -204,16 +204,22 @@ void BinTree::arrayToBSTree(NodeData* arr[]) {
 // -----------------------------  bstreeToArray  ------------------------------
 // bstreeToArray
 // Description: 
-//  - 
+//  - Takes the Node pointers out of the BinTree and puts them into the 
+//    passed in array. Utilizes the in-order traverseAndArrayify function for 
+//    the array building. Utilizes the traverseAndMakeEmpty function to empty 
+//    the BinTree of all Nodes and NodeData objects afterwards.
 // Precondition: 
-//  - 
+//  - The BinTree has >0 Nodes. The passed in array is filled to a static 
+//    quantity of 100 NULL spaces able to be filled
 // Postcondition:
-//  - 
+//  - The BinTree is empty and the passed in array is filled with pointers to 
+//    the Nodes that were originally in the BinTree
 // ----------------------------------------------------------------------------
 void BinTree::bstreeToArray(NodeData* arr[]) {
   cout << "Inside bstreeToArray" << endl;
   int index = 0;
   traverseAndArrayify(root, arr, index);
+  traverseAndMakeEmpty(root);
 }
 // ----------------------------------------------------------------------------
 
@@ -349,7 +355,7 @@ int BinTree::getHeightHelper(const Node* node) const {
   }
   int leftHeight = getHeightHelper(node->left);
   int rightHeight = getHeightHelper(node->right);
-  return 1 + max(leftHeight, rightHeight);
+  return max(leftHeight, rightHeight) + 1;
 }
 // ----------------------------------------------------------------------------
 
@@ -577,9 +583,7 @@ bool BinTree::traverseAndCompare(const Node* node, const Node* otherNode) const 
 //    passed in BinTree via a deep copy
 // ----------------------------------------------------------------------------
 void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root node of the other BinTree
-
   //Pre-order traversal
-  
   // If the other BinTree's Node space is occupied, we insert that NodeData into this BinTree
   if (otherTreeNode != nullptr) {
     insert(otherTreeNode->data);
@@ -592,7 +596,6 @@ void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root nod
       traverseAndCopy(otherTreeNode->right);
     }
   } 
-
 }
 // ----------------------------------------------------------------------------
 
@@ -612,11 +615,12 @@ void BinTree::traverseAndCopy(Node* otherTreeNode) { // gets passed the root nod
 //    deallocated and the root is set to nullptr
 // ----------------------------------------------------------------------------
 void BinTree::traverseAndMakeEmpty(Node*& node) {
-  if (node == nullptr) {
+  // Post-order traversal
+  if (node == nullptr) { // A UW Bothell tutor told me to put this here, I don't think it was needed
     return;
   }
   if (node != nullptr) {
-    // Post-order traversal
+    
     if (node->left != nullptr) {
         traverseAndMakeEmpty(node->left);
     }

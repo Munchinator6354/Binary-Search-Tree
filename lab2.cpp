@@ -87,7 +87,20 @@ int main() {
     
 
     // somewhat test bstreeToArray and arrayToBSTree
+    cout << "Before T.bstreeToArray(ndArray):" << endl;
     T.bstreeToArray(ndArray);
+    for (int i = 0; i < 100; i++) {
+      cout << ndArray[i] << ", ";
+    }
+    cout << endl;
+    cout << "After T.bstreeToArray(ndArray):" << endl;
+
+    // cout << "Before T.displaySideways() AFTER TREE HAS BEEN EMPTIED TO ARRAY:" << endl;
+    // T.displaySideways();
+    // cout << "After T.displaySideways() AFTER TREE HAS BEEN EMPTIED TO ARRAY" << endl;
+
+
+    
     T.arrayToBSTree(ndArray);
     T.displaySideways();
 
