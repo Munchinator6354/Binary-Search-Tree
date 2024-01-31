@@ -219,7 +219,25 @@ public:
   bool isEmpty() const;
 // ----------------------------------------------------------------------------
 
-
+// -------------------------------  retrieve  ---------------------------------
+// retrieve
+// Description: 
+//  - If the passed in target NodeData exists in the BinTree, a value of true 
+//    is returned and the found parameter is set to be the accessible point 
+//    of that NodeData object. If the target NodeData does not exist in the 
+//    BinTree, a value of false is returned and the found parameter is simply 
+//    garbage. This function relies on it's helper function to recursively 
+//    focus on one Node at a time, starting with the root Node.
+// Precondition: 
+//  - The BinTree exists and has >= 0 Nodes in it, each with their own 
+//    NodeData object and respective string data within
+// Postcondition:
+//  - The BinTree exists and either true or false is returned depending on if 
+//    the target value was found, true if found, false if not. If the NodeData 
+//    was found, the found parameter is pointed to that NodeData for access. 
+//    If the NodeData was not found, then garbage data fills the found 
+//    parameter
+// ----------------------------------------------------------------------------
   bool retrieve(const NodeData& target, NodeData*& found) const;
 // ----------------------------------------------------------------------------
 
